@@ -1,0 +1,443 @@
+<?php
+/**
+ * Copyright © 2015 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+use Magento\Framework\App\Action\Action;
+
+// @codingStandardsIgnoreFile
+
+?>
+<?php
+/**
+ * Product list template
+ *
+ * @var $block \Magento\Catalog\Block\Product\ListProduct
+ */
+?>
+
+<?php
+$_productCollection = $block->getLoadedProductCollection();
+$_helper = $this->helper('Magento\Catalog\Helper\Output');
+$themeHelper = $this->helper('FIRSTSHOW\Mpanel\Helper\Data');
+$themeSettings = $themeHelper->getThemeSettings();
+$size = $themeHelper->getImageSize();
+
+$categoryImage = $categoryDescription = $categoryCms = "";
+
+  $categoryDescription = $this->getLayout()->createBlock("Magento\Catalog\Block\Category\View")->setTemplate("Magento_Catalog::category/description.phtml")->toHtml();
+  // $categoryImage = $this->getLayout()->createBlock("Magento\Catalog\Block\Category\View")->setTemplate("Magento_Catalog::category/image.phtml")->toHtml();
+  $categoryCms = $this->getLayout()->createBlock("Magento\Catalog\Block\Category\View")->setTemplate("Magento_Catalog::category/cms.phtml")->toHtml();
+
+?>
+<?php $cate_name = $this->getLayer()->getCurrentCategory()->getName() ?>
+<?php if (!$_productCollection->count()): ?>
+    <div class="message info empty"><div><?php /* @escapeNotVerified */ echo __('We can\'t find products matching the selection.') ?></div></div>
+<?php else: ?>
+
+    <div class="category-name-product-list-grid">
+      <?php
+      // echo $categoryImage;
+      if ($categoryDescription) {
+        echo $categoryDescription;
+      }else {
+        ?><h1><?php echo $cate_name; ?></h1><?php
+      } ?>
+
+      <?php /* @escapeNotVerified */ //echo $block->getProductPrice($_product); ?>
+    </div>
+    <div class="hidden-bottom">
+        <?php echo $block->getToolbarHtml() ?>
+    </div>
+    <?php echo $block->getAdditionalHtml() ?>
+    <?php
+    if ($block->getMode() == 'grid') {
+        $viewMode = 'grid';
+        $image = 'category_page_grid';
+  		  $imageTwo = 'category_page_two_grid';
+        $showDescription = false;
+        $templateType = \Magento\Catalog\Block\Product\ReviewRendererInterface::SHORT_VIEW;
+    } else {
+        $viewMode = 'list';
+        $image = 'category_page_list';
+		    $imageTwo = 'category_page_two_list';
+        $showDescription = true;
+        $templateType = \Magento\Catalog\Block\Product\ReviewRendererInterface::FULL_VIEW;
+    }
+    /**
+     * Position for actions regarding image size changing in vde if needed
+     */
+    $pos = $block->getPositioned();
+    ?>
+    <div class="products wrapper <?php /* @escapeNotVerified */ echo $viewMode; ?> products-<?php /* @escapeNotVerified */ echo $viewMode; ?>">
+        <?php $iterator = 1; ?>
+        <ol class="products list items product-items row <?php if($block->getMode() != 'grid'): ?>category-products-list<?php endif ?>">
+            <?php $i =0;  foreach ($_productCollection as $_product): $i++; ?>
+
+        <?php $_productNameStripped = $block->stripTags($_product->getName(), null, true); ?>
+				<?php if ($block->getMode() == 'grid'):
+
+          $ptype = $_product->getTypeId();
+          $actualId = $_product->getSku();
+          $childSelectAttrId = "";
+          // $IsOnlySimple = true;
+          if ($ptype == 'simple') {
+
+
+            $_helperParent = $this->helper('Twl\AdaptiveResize\Helper\Data');
+            $parentProductId = $_helperParent->getParentId($_product->getId());
+            if ($parentProductId) {
+              $colorObj = $_product->getResource()->getAttribute('color');
+              $colorAttrId = $colorObj->getId();
+              $optionLabel = $colorObj->getFrontend()->getValue($_product);
+              if ($colorObj->usesSource()) {
+                $childAttrId = $colorObj->getSource()->getOptionId($optionLabel);
+                $childSelectAttrId = "option-label-color-$colorAttrId-item-$childAttrId";
+              }
+
+              $_product = $_helperParent->getLoadProduct($parentProductId);
+              $ptype = $_product->getTypeId();
+              // $IsOnlySimple = false;
+            }
+            // var_dump($parentProductId);
+          }
+
+          $_helperGallery = $this->helper('Twl\AdaptiveResize\Helper\Gallery');
+          $_helperGallery->addGallery($_product);
+          $_helperGallery->setWidthHeight($size['width'], $size['height']);
+          $imagesUrls = $_helperGallery->getGalleryImages($_product);
+
+            $_itemNameStripped = $block->stripTags($_product->getName(), null, true);
+            $productUrl = $block->getProductUrl($_product);
+
+          ?>
+					<?php /* @escapeNotVerified */ echo($iterator++ == 1) ? '<li class="item product product-item '. $themeHelper->getColClass($themeSettings['catalog']['per_row']) .'">' : '</li><li class="item product product-item '. $themeHelper->getColClass($themeSettings['catalog']['per_row']) . $themeHelper->getClearClass($themeSettings['catalog']['per_row'], $i) .'">' ?>
+						<div class="product-item-info product-hover" data-container="product-grid">
+							<div class="product-content">
+                <div class="product-top image-container-items only-<?php echo $ptype;?>-product" product_url="<?php /* @escapeNotVerified */ echo $productUrl; ?>"  title="<?php echo $_itemNameStripped ?>">
+
+                  <?php if ($imagesUrls) {
+
+                    foreach ($imagesUrls as $img) {
+                      ?>
+                      <div class="product-image-item">
+        								<a href="<?php /* @escapeNotVerified */ echo $productUrl; ?>" class="product-item-photo">
+        									<img src="<?php echo $img; ?>" alt="<?php echo $_itemNameStripped ?>" class="img-responsive product-image-photo img-thumbnail"/>
+        								</a>
+        							</div>
+                      <?php
+                    }
+                  } ?>
+                </div>
+								<div class="product-top">
+									<?php // Product Image ?>
+
+									<?php //echo $themeHelper->getProductLabel($_product) ?>
+
+                  <div class="product-bottom">
+                    <div class="product-name">
+                      <?php
+                        $new_product = $_product->getData('new_product');
+                        if ($new_product == "1") {
+                          echo '<div class="new-product-title"><span class="badge new_product">'.__('New').'</span></div>';
+                        }
+                        // echo $themeHelper->getProductLabel($_item);
+
+                       ?>
+                      <p class="product name product-item-name">
+    										<a class="product-item-link"
+    										   href="<?php /* @escapeNotVerified */ echo $_product->getProductUrl() ?>">
+    											<?php /* @escapeNotVerified */ echo $_helper->productAttribute($_product, $_product->getName(), 'name'); ?>
+    										</a>
+    									</p>
+                    </div>
+                    <div class="product-price">
+                      <?php /* @escapeNotVerified */ echo $block->getProductPrice($_product) ?>
+                    </div>
+                  </div>
+								</div>
+
+
+
+								<div class="product-desc product details product-item-details hide-product-control">
+									<!-- <div class="top-desc">
+										<div class="text-desc cate-name">
+											<div class="text">
+												<span><?php //echo $cate_name; ?></span>
+											</div>
+										</div>
+										<div class="controls">
+											<?php //if(!$themeSettings['catalog']['wishlist_button'] || !$themeSettings['catalog']['compare_button']): ?>
+												<ul data-role="add-to-links" class="actions-secondary">
+													<?php //if ($this->helper('Magento\Wishlist\Helper\Data')->isAllow() && !$themeSettings['catalog']['wishlist_button']): ?>
+														<li><a href="#"
+														   class="action towishlist <?php //if(!$themeHelper->checkInWishilist($_product->getId())): ?>no-active<?php //endif ?>"
+														   title="<?php //echo $block->escapeHtml(__('Add to Wish List')); ?>"
+														   aria-label="<?php //echo $block->escapeHtml(__('Add to Wish List')); ?>"
+														   data-post='<?php /* @escapeNotVerified */ //echo $block->getAddToWishlistParams($_product); ?>'
+														   data-action="add-to-wishlist"
+														   role="button">
+															<i class="fa <?php //if($themeHelper->checkInWishilist($_product->getId())): ?>fa-heart active<?php //else: ?>fa-heart-o<?php //endif ?>"></i>
+														</a></li>
+													<?php //endif; ?>
+													<?php //$compareHelper = $this->helper('Magento\Catalog\Helper\Product\Compare'); ?>
+													<?php //if(!$themeSettings['catalog']['compare_button']): ?>
+														<li><a href="#"
+														   class="action tocompare"
+														   title="<?php //echo $block->escapeHtml(__('Add to Compare')); ?>"
+														   aria-label="<?php //echo $block->escapeHtml(__('Add to Compare')); ?>"
+														   data-post='<?php /* @escapeNotVerified */ //echo $compareHelper->getPostDataParams($_product); ?>'
+														   role="button">
+															<i class="fa fa-sliders"></i>
+														</a></li>
+													<?php //endif ?>
+												</ul>
+											<?php //endif ?>
+										</div>
+									</div> -->
+									<!-- <p class="product name product-item-name">
+										<a class="product-item-link"
+										   href="<?php /* @escapeNotVerified */ //echo $_product->getProductUrl() ?>">
+											<?php /* @escapeNotVerified */ //echo $_helper->productAttribute($_product, $_product->getName(), 'name'); ?>
+										</a>
+									</p> -->
+                  <div class="information-prd child_selected_id" child_selected_id="<?php echo $childSelectAttrId; ?>">
+										<div class="pro-options"><?php echo $block->getProductDetailsHtml($_product); ?></div>
+									</div>
+
+									<div class="desc-prd">
+										<div class="information-prd">
+											<?php /* @escapeNotVerified */ //echo $block->getProductPrice($_product) ?>
+											<?php echo $block->getReviewsSummaryHtml($_product, $templateType,true); ?>
+											<?php if ($showDescription):?>
+												<div class="product description product-item-description">
+													<?php /* @escapeNotVerified */ echo $_helper->productAttribute($_product, $_product->getShortDescription(), 'short_description') ?>
+													<a href="<?php /* @escapeNotVerified */ echo $_product->getProductUrl() ?>" title="<?php /* @escapeNotVerified */ echo $_productNameStripped ?>"
+													   class="action more"><?php /* @escapeNotVerified */ echo __('Learn More') ?></a>
+												</div>
+											<?php endif; ?>
+										</div>
+										<div class="add-cart-item clearfix">
+											<div class="product actions product-item-actions clearfix">
+                        <?php /* @escapeNotVerified */ echo $block->getProductPrice($_product) ?>
+												<div class="actions-primary btn-add-to-bag">
+													<?php if ($_product->isSaleable()): ?>
+														<?php $postParams = $block->getAddToCartPostParams($_product); ?>
+														<form data-role="tocart-form" action="<?php /* @escapeNotVerified */ echo $postParams['action']; ?>" method="post">
+															<input type="hidden" name="product" value="<?php /* @escapeNotVerified */ echo $postParams['data']['product']; ?>">
+															<input type="hidden" name="<?php /* @escapeNotVerified */ echo Action::PARAM_NAME_URL_ENCODED; ?>" value="<?php /* @escapeNotVerified */ echo $postParams['data'][Action::PARAM_NAME_URL_ENCODED]; ?>">
+															<?php echo $block->getBlockHtml('formkey')?>
+															<button type="submit"
+																	title="<?php echo $block->escapeHtml(__('Add to Bag')); ?>"
+																	class="action tocart primary add-to-bag btn btn-primary">
+																<span>
+                                  <!-- <span class="fa fa-shopping-cart"></span> -->
+                                  <?php /* @escapeNotVerified */ echo __('Add to Bag') ?></span>
+															</button>
+														</form>
+													<?php else: ?>
+														<?php if ($_product->getIsSalable()): ?>
+															<div class="stock available"><span><?php /* @escapeNotVerified */ echo __('In stock') ?></span></div>
+														<?php else: ?>
+															<div class="stock unavailable"><span><?php /* @escapeNotVerified */ echo __('Out of stock') ?></span></div>
+														<?php endif; ?>
+													<?php endif; ?>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					<?php echo($iterator == count($_productCollection)+1) ? '</li>' : '' ?>
+				<?php else:?>
+					<?php /* @escapeNotVerified */ echo($iterator++ == 1) ? '<li class="item product product-item col-md-12 col-sm-12 col-xs-12">' : '</li><li class="item product product-item col-md-12 col-sm-12 col-xs-12">' ?>
+					<div class="product-item-info" data-container="product-grid">
+						<div class="row">
+							<div class="col-md-3 col-sm-6 col-xs-12">
+								<div class="product-images-box">
+									<a href="<?php /* @escapeNotVerified */ echo $_product->getProductUrl() ?>" class="product-image product photo product-item-photo" tabindex="-1">
+										<img src="<?php echo $productImage; ?>" alt="<?php echo $_productNameStripped ?>" class="img-responsive product-image-photo img-thumbnail"/>
+									</a>
+									<?php echo $themeHelper->getProductLabel($_product) ?>
+								</div>
+							</div>
+							<div class="col-md-9 col-sm-6 col-xs-12">
+								<p class="product name product-item-name">
+									<a class="product-item-link"
+									   href="<?php /* @escapeNotVerified */ echo $_product->getProductUrl() ?>"><?php /* @escapeNotVerified */ echo $_helper->productAttribute($_product, $_product->getName(), 'name'); ?>
+									</a>
+								</p>
+								<?php /* @escapeNotVerified */ //echo $block->getProductPrice($_product) ?>
+								<?php //echo $block->getReviewsSummaryHtml($_product, $templateType); ?>
+								<?php echo $block->getProductDetailsHtml($_product); ?>
+
+								<div class="product description product-item-description">
+									<?php /* @escapeNotVerified */ echo $_helper->productAttribute($_product, $_product->getShortDescription(), 'short_description') ?>
+								</div>
+								<div class="controls">
+									<ul class="icon-links">
+										<li class="actions-primary add-cart-item btn-add-to-bag">
+											<?php if ($_product->isSaleable()): ?>
+												<?php $postParams = $block->getAddToCartPostParams($_product); ?>
+												<form data-role="tocart-form" action="<?php /* @escapeNotVerified */ echo $postParams['action']; ?>" method="post">
+													<input type="hidden" name="product" value="<?php /* @escapeNotVerified */ echo $postParams['data']['product']; ?>">
+													<input type="hidden" name="<?php /* @escapeNotVerified */ echo Action::PARAM_NAME_URL_ENCODED; ?>" value="<?php /* @escapeNotVerified */ echo $postParams['data'][Action::PARAM_NAME_URL_ENCODED]; ?>">
+													<?php echo $block->getBlockHtml('formkey')?>
+													<button type="submit"
+															title="<?php echo $block->escapeHtml(__('Add to Bag')); ?>"
+															class="btn btn-primary add-to-bag">
+														<span>
+                              <em class="fa fa-shopping-cart"></em>
+                              <?php /* @escapeNotVerified */ echo __('Add to Bag') ?>
+                            </span>
+													</button>
+												</form>
+											<?php else: ?>
+												<?php if ($_product->getIsSalable()): ?>
+													<div class="stock available"><span><?php /* @escapeNotVerified */ echo __('In stock') ?></span></div>
+												<?php else: ?>
+													<div class="stock unavailable"><span><?php /* @escapeNotVerified */ echo __('Out of stock') ?></span></div>
+												<?php endif; ?>
+											<?php endif; ?>
+										</li>
+										<?php if ($this->helper('Magento\Wishlist\Helper\Data')->isAllow() && !$themeSettings['catalog']['wishlist_button']): ?>
+											<li><a href="#"
+											   class="action towishlist"
+											   title="<?php echo $block->escapeHtml(__('Add to Wish List')); ?>"
+											   aria-label="<?php echo $block->escapeHtml(__('Add to Wish List')); ?>"
+											   data-post='<?php /* @escapeNotVerified */ echo $block->getAddToWishlistParams($_product); ?>'
+											   data-action="add-to-wishlist"
+											   role="button">
+												<i class="fa fa-heart-o"></i><?php echo __('Add to Wishlist') ?>
+											</a></li>
+										<?php endif; ?>
+										<?php if(!$themeSettings['catalog']['compare_button']): ?>
+											<li><?php $compareHelper = $this->helper('Magento\Catalog\Helper\Product\Compare'); ?>
+												<a href="#"
+												   class="action tocompare"
+												   title="<?php echo $block->escapeHtml(__('Add to Compare')); ?>"
+												   aria-label="<?php echo $block->escapeHtml(__('Add to Compare')); ?>"
+												   data-post='<?php /* @escapeNotVerified */ echo $compareHelper->getPostDataParams($_product); ?>'
+												   role="button">
+													<i class="fa fa-sliders"></i><?php echo __('Add to Compare') ?>
+												</a>
+											</li>
+										<?php endif ?>
+								</div>
+							</div>
+						</div>
+					</div>
+					<?php echo($iterator == count($_productCollection)+1) ? '</li>' : '' ?>
+				<?php endif;?>
+            <?php endforeach; ?>
+        </ol>
+    </div>
+<div class="hidden-top">
+    <?php echo $block->getToolbarHtml() ?>
+</div>
+<?php /*?><div class="showing">
+    <?php include ($block->getTemplateFile('Magento_Catalog::product/list/toolbar/amount.phtml')); ?>
+</div><?php */?>
+<div id="product_list-load_more" class="show-more product_list-load_more text-center ">
+  <button id="load-more-product" class="btn btn-border btn-gradient product_list-load_more_btn js-load_more_btn"><?php echo __('Load More') ?></button>
+</div>
+<?php if ($categoryCms): ?>
+  <div class="category-cms-block">
+    <?php echo $categoryCms; ?>
+  </div>
+<?php endif; ?>
+
+    <?php if (!$block->isRedirectToCartEnabled()) : ?>
+        <script type="text/x-magento-init">
+        {
+            "[data-role=tocart-form], .form.map.checkout": {
+                "catalogAddToCart": {}
+            }
+        }
+        </script>
+    <?php endif; ?>
+<?php endif; ?>
+<?php if ($block->getMode() == 'grid'){
+?>
+<script type="text/javascript">
+  require([
+    'jquery',
+    'firstshow/owlcarousel'
+  ], function(jQuery){
+    (function($) {
+
+      var innerOwlCarousel = $(".image-container-items.only-simple-product, .image-container-items.only-virtual-product").owlCarousel({
+        items: 1,
+        loop: false,
+        nav: true,
+        dots: false,
+        pagination: false,
+        autoplayTimeout: 6000,
+		lazyLoad:true,
+        navText: ["<i class='fa fa-angle-left'	></i>","<i class='fa fa-angle-right'></i>"],
+        autoplay: false,
+        // responsive:{
+        // 	0 : {items: 1},
+        // 	480 : {items: 1},
+        // 	768 : {items: 3},
+        // 	980 : {items: 4},
+        // 	1200 : {items: 5}
+        // }
+      });
+      $(innerOwlCarousel).unbind('change.owl.carousel');
+
+      /*Ajax loading..*/
+      var url = $('.next').attr('href');
+      if (typeof url === "undefined") {
+        $('#product_list-load_more').addClass('hide');
+      }else {
+        $('#product_list-load_more').removeClass('hide');
+      }
+      $('#load-more-product').on('click', function() {
+        var url = $('.next').attr('href');
+        $('#product_list-load_more').hide();
+        $('#product_list-load_more').show();
+        $.get(url, function(data) {
+          $('#product_list-load_more').hide();
+          $('#product_list-load_more').show();
+          var result = $(data).find('.item.product.product-item');
+          // var result = $(data).find('.column.pull-right').text();
+          var nxtUrl = $(data).find('.next').attr('href');
+          // console.log(result);
+          $('.column.pull-right').append(result);
+          result.each(function(index, value) {
+            $('.products.list.items.product-items').append(value);
+            $("form[data-role='tocart-form']").catalogAddToCart();
+          });
+          $('.products.list.items.product-items').trigger('contentUpdated');
+
+          var innerOwlCarousel = $(".image-container-items.only-simple-product, .image-container-items.only-virtual-product").owlCarousel({
+            items: 1,
+            loop: false,
+            nav: true,
+            dots: false,
+            pagination: false,
+            autoplayTimeout: 6000,
+			lazyLoad:true,
+            navText: ["<i class='fa fa-angle-left'	></i>","<i class='fa fa-angle-right'></i>"],
+            autoplay: false
+          });
+          $(innerOwlCarousel).unbind('change.owl.carousel');
+          innerOwlCarousel.trigger('refresh.owl.carousel');
+
+          if (typeof nxtUrl === "undefined") {
+            $('#product_list-load_more').addClass('hide');
+            // $('#product_list-load_more').after('<em>No More product in this Category.</em>');
+          } else {
+            $('.next').attr('href', nxtUrl);
+          }
+        });
+      });
+      /*Ajax loading..*/
+
+    })(jQuery);
+  });
+</script>
+<?php
+} ?>

@@ -1,0 +1,60 @@
+<?php
+  $newsTicker = $this->getLayout()
+      ->createBlock(Magento\Cms\Block\Block::class)
+      ->setBlockId('header_banner') //replace my_cmsblock_identifier with real CMS bock identifier
+      ->toHtml();
+
+if ($newsTicker) {
+  ?>
+  <div class="header-promotion owl-carousel owl-theme">
+    <?php echo $newsTicker; ?>
+  </div>
+
+  <script>
+    // $j(document).ready(function($) {
+    //
+    //   $j('.header-promotion').owlCarousel({
+    //     // animateOut: 'slideOutDown',
+    //     // animateIn: 'flipInX',
+    //     items: 1,
+    //     loop: true,
+    //     // nav : false,
+    //     // pagination: false,
+    //     dots: false,
+    //     autoplay: true,
+    //     margin: 0,
+    //     stagePadding: 0,
+    //     // smartSpeed: 300,
+    //     autoplayTimeout:3500,
+    //     animateOut: 'slideOutUp',
+    //     animateIn: 'slideInUp'
+    //   });
+    // });
+
+    // require([
+		// 	'jquery',
+		// 	'firstshow/owlcarousel'
+		// ], function(jQuery){
+		// 	(function($) {
+		// 		$(".header-promotion").owlCarousel({
+		// 			items: 1,
+		// 			loop: true,
+		// 			nav: true,
+		// 			dots: true,
+		// 			autoplayTimeout: 6000,
+		// 			navText: ["<i class='fa fa-angle-left'	></i>","<i class='fa fa-angle-right'></i>"],
+		// 			autoplay: true,
+		// 			responsive:{
+		// 				0 : {items: 1},
+		// 				480 : {items: 1},
+		// 				768 : {items: 1},
+		// 				980 : {items: 1},
+		// 				1200 : {items: 1}
+		// 			}
+		// 		});
+		// 	})(jQuery);
+		// });
+  </script>
+  <?php
+}
+?>

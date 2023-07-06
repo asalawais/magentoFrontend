@@ -1,0 +1,402 @@
+<?php
+/**
+ * Copyright © 2016 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+?>
+<?php
+/**
+ * Create account form template
+ *
+ * @var $block \Magento\Customer\Block\Form\Register
+ */
+?>
+<?php echo $block->getChildHtml('form_fields_before')?>
+<?php /* Extensions placeholder */ ?>
+<?php echo $block->getChildHtml('customer.form.register.extra')?>
+<form class="form create account form-create-account" action="<?php /* @escapeNotVerified */ echo $block->getPostActionUrl() ?>" method="post" id="form-validate" enctype="multipart/form-data" autocomplete="off">
+    <fieldset class="fieldset create info">
+        <legend class="legend"><span><?php /* @escapeNotVerified */ echo __('Personal Information') ?></span></legend><br>
+        <input type="hidden" name="success_url" value="<?php /* @escapeNotVerified */ echo $block->getSuccessUrl() ?>">
+        <input type="hidden" name="error_url" value="<?php /* @escapeNotVerified */ echo $block->getErrorUrl() ?>">
+        <div class="create-account">
+          <h1>Create an Account</h1>
+          <!-- <span>Create an Account</span> -->
+          <div class="col-12">
+            <div class="register_text">
+              <?php /* @escapeNotVerified */ echo __('Save your information to check out faster, save items to your wishlist, and view your purchase and return history.') ?>
+              <br>
+              <br>
+              <?php /* @escapeNotVerified */ echo __('Note: Only orders that are placed after account creation will be reflected in your FIRSTSHOW account.') ?>
+            </div>
+            <p><?php /* @escapeNotVerified */ echo __('* These fields are required.') ?> </p>
+          </div>
+
+        </div>
+
+        <?php //echo $block->getLayout()->createBlock('Magento\Customer\Block\Widget\Name')->setObject($block->getFormData())->setForceUseCustomerAttributes(true)->toHtml() ?>
+       
+
+        <?php $_dob = $block->getLayout()->createBlock('Magento\Customer\Block\Widget\Dob') ?>
+        <?php /*if ($_dob->isEnabled()): ?>
+            <?php echo $_dob->setDate($block->getFormData()->getDob())->toHtml() ?>
+        <?php endif*/ ?>
+
+        <?php $_taxvat = $block->getLayout()->createBlock('Magento\Customer\Block\Widget\Taxvat') ?>
+        <?php if ($_taxvat->isEnabled()): ?>
+            <?php echo $_taxvat->setTaxvat($block->getFormData()->getTaxvat())->toHtml() ?>
+        <?php endif ?>
+
+        <?php $_gender = $block->getLayout()->createBlock('Magento\Customer\Block\Widget\Gender') ?>
+        <?php //if ($_gender->isEnabled()): ?>
+            <?php //echo $_gender->setGender($block->getFormData()->getGender())->toHtml() ?>
+        <?php //endif ?>
+
+    </fieldset>
+
+    <?php if ($block->getShowAddressFields()): ?>
+        <fieldset class="fieldset address">
+            <legend class="legend"><span><?php /* @escapeNotVerified */ echo __('Address Information') ?></span></legend><br>
+            <input type="hidden" name="create_address" value="1" />
+            <div class="field company">
+                <label for="company" class="label"><span><?php /* @escapeNotVerified */ echo __('Company') ?></span></label>
+                <div class="control">
+                    <input type="text" name="company" id="company" value="<?php echo $block->escapeHtml($block->getFormData()->getCompany()) ?>" title="<?php /* @escapeNotVerified */ echo __('Company') ?>" class="input-text <?php /* @escapeNotVerified */ echo $this->helper('Magento\Customer\Helper\Address')->getAttributeValidationClass('company') ?>">
+                </div>
+            </div>
+            <div class="field telephone">
+                <label for="telephone" class="label"><span><?php /* @escapeNotVerified */ echo __('Phone Number') ?></span></label>
+                <div class="control">
+                    <input type="text" name="telephone" id="telephone" value="<?php echo $block->escapeHtml($block->getFormData()->getTelephone()) ?>" title="<?php /* @escapeNotVerified */ echo __('Phone Number') ?>" class="input-text <?php /* @escapeNotVerified */ echo $this->helper('Magento\Customer\Helper\Address')->getAttributeValidationClass('telephone') ?>">
+                </div>
+            </div>
+
+            <?php $_streetValidationClass = $this->helper('Magento\Customer\Helper\Address')->getAttributeValidationClass('street'); ?>
+
+            <div class="field street required">
+                <label for="street_1" class="label"><span><?php /* @escapeNotVerified */ echo __('Street Address') ?></span></label>
+                <div class="control">
+                    <input type="text" name="street[]" value="<?php echo $block->escapeHtml($block->getFormData()->getStreet(0)) ?>" title="<?php /* @escapeNotVerified */ echo __('Street Address') ?>" id="street_1" class="input-text <?php /* @escapeNotVerified */ echo $_streetValidationClass ?>">
+                    <div class="nested">
+                        <?php $_streetValidationClass = trim(str_replace('required-entry', '', $_streetValidationClass)); ?>
+                        <?php for ($_i = 2, $_n = $this->helper('Magento\Customer\Helper\Address')->getStreetLines(); $_i <= $_n; $_i++): ?>
+                            <div class="field additional">
+                                <label class="label" for="street_<?php /* @escapeNotVerified */ echo $_i ?>">
+                                    <span><?php /* @escapeNotVerified */ echo __('Address') ?></span>
+                                </label>
+                                <div class="control">
+                                    <input type="text" name="street[]" value="<?php echo $block->escapeHtml($block->getFormData()->getStreetLine($_i - 1)) ?>" title="<?php /* @escapeNotVerified */ echo __('Street Address %1', $_i) ?>" id="street_<?php /* @escapeNotVerified */ echo $_i ?>" class="input-text <?php /* @escapeNotVerified */ echo $_streetValidationClass ?>">
+                                </div>
+                            </div>
+                        <?php endfor; ?>
+                    </div>
+                </div>
+            </div>
+
+            <div class="field required">
+                <label for="city" class="label"><span><?php /* @escapeNotVerified */ echo __('City') ?></span></label>
+                <div class="control">
+                    <input type="text" name="city" value="<?php echo $block->escapeHtml($block->getFormData()->getCity()) ?>" title="<?php /* @escapeNotVerified */ echo __('City') ?>" class="input-text <?php /* @escapeNotVerified */ echo $this->helper('Magento\Customer\Helper\Address')->getAttributeValidationClass('city') ?>" id="city">
+                </div>
+            </div>
+
+            <div class="field region required">
+                <label for="region_id" class="label"><span><?php /* @escapeNotVerified */ echo __('State/Province') ?></span></label>
+                <div class="control">
+                    <select id="region_id" name="region_id" title="<?php /* @escapeNotVerified */ echo __('State/Province') ?>" class="validate-select" style="display:none;">
+                        <option value=""><?php /* @escapeNotVerified */ echo __('Please select a region, state or province.') ?></option>
+                    </select>
+                    <input type="text" id="region" name="region" value="<?php echo $block->escapeHtml($block->getRegion()) ?>" title="<?php /* @escapeNotVerified */ echo __('State/Province') ?>" class="input-text <?php /* @escapeNotVerified */ echo $this->helper('Magento\Customer\Helper\Address')->getAttributeValidationClass('region') ?>" style="display:none;">
+                </div>
+            </div>
+
+            <div class="field zip required">
+                <label for="zip" class="label"><span><?php /* @escapeNotVerified */ echo __('Zip/Postal Code') ?></span></label>
+                <div class="control">
+                    <input type="text" name="postcode" value="<?php echo $block->escapeHtml($block->getFormData()->getPostcode()) ?>" title="<?php /* @escapeNotVerified */ echo __('Zip/Postal Code') ?>" id="zip" class="input-text validate-zip-international <?php /* @escapeNotVerified */ echo $this->helper('Magento\Customer\Helper\Address')->getAttributeValidationClass('postcode') ?>">
+                </div>
+            </div>
+
+            <div class="field country required">
+                <label for="country" class="label"><span><?php /* @escapeNotVerified */ echo __('Country') ?></span></label>
+                <div class="control">
+                    <?php echo $block->getCountryHtmlSelect() ?>
+                </div>
+            </div>
+            <?php $addressAttributes = $block->getChildBlock('customer_form_address_user_attributes');?>
+            <?php if ($addressAttributes): ?>
+                <?php $addressAttributes->setEntityType('customer_address'); ?>
+                <?php $addressAttributes->setFieldIdFormat('address:%1$s')->setFieldNameFormat('address[%1$s]');?>
+                <?php $block->restoreSessionData($addressAttributes->getMetadataForm(), 'address');?>
+                <?php echo $addressAttributes->setShowContainer(false)->toHtml()?>
+            <?php endif;?>
+            <input type="hidden" name="default_billing" value="1">
+            <input type="hidden" name="default_shipping" value="1">
+        </fieldset>
+
+    <?php endif; ?>
+    <fieldset class="fieldset create account" data-hasrequired="<?php /* @escapeNotVerified */ echo __('* Required Fields') ?>">
+        <legend class="legend"><span><?php /* @escapeNotVerified */ echo __('Sign-in Information') ?></span></legend>
+        <div class="field required">
+            <!--label for="email_address" class="label"><span><?php /* @escapeNotVerified */ echo __('Email') ?></span></label-->
+            <div class="control">
+                <input type="text" placeholder="First Name" name="firstname" autocomplete="firstname" id="firstname" value="<?php echo $block->escapeHtml($block->getFormData()->getFirstname()) ?>" title="<?php /* @escapeNotVerified */ echo __('First Name') ?>" class="input-text" data-validate="{required:true}">
+            </div>
+        </div>
+        <div class="field required">
+            <!--label for="email_address" class="label"><span><?php /* @escapeNotVerified */ echo __('Email') ?></span></label-->
+            <div class="control">
+                <input type="text" placeholder="Last Name" name="lastname" autocomplete="lastname" id="lastname" value="<?php echo $block->escapeHtml($block->getFormData()->getLastname()) ?>" title="<?php /* @escapeNotVerified */ echo __('Last Name') ?>" class="input-text" data-validate="{required:true}">
+            </div>
+        </div>
+        <div class="field field-dob required">
+            <div class="control customer-dob">
+				<div class="row">
+				<div class="col-md-3 col-12 text-nowrap">
+				<label for="dob" class="col-form-label c-form_label c-form_label--required"><span><?php /* @escapeNotVerified */ echo __('Date of Birth') ?></span></label>
+				</div>
+            	<div class="form-group col-md-3 col-4 mb-0 form_separator required">
+                	<input type="hidden" name="dob" id="dob" value="<?php echo $block->escapeHtml($block->getFormData()->getDob()) ?>"/>
+                	<select class="select custom-select" id="birthDay" name="dob_day" max="31" min="1" data-validate="{required:true}">
+                        <option id="" value="" selected=""><?php /* @escapeNotVerified */ echo __('DD') ?></option>
+                        <?php for( $d=1; $d<=31; ++$d ) : ?>
+                        <option value="<?php echo sprintf('%02d', $d); ?>" <?php if($block->escapeHtml($block->getFormData()->getDobDay()) == $d) : ?>selected<?php endif;?>><?php echo sprintf('%02d', $d); ?></option>
+                        <?php endfor; ?>
+                    </select>
+                </div>
+                <div class="form-group col-md-3 col-4 mb-0 form_separator required">
+                	<select class="select custom-select" id="birthMonth" name="dob_month" max="12" min="1" data-validate="{required:true}">
+                        <option id="" value="" selected=""><?php /* @escapeNotVerified */ echo __('MM') ?></option>
+                         <?php for( $m=1; $m<=12; ++$m ) : 	$month_label = date('m', mktime(0, 0, 0, $m, 1));?>
+                          <option value="<?php echo $month_label; ?>" <?php if($block->escapeHtml($block->getFormData()->getDobMonth()) == $month_label) : ?>selected<?php endif;?>><?php echo $month_label; ?></option>
+                         <?php endfor; ?>
+                    </select>
+                </div>
+                <div class="form-group col-md-3 col-4 mb-0 required">
+                	<select class="select custom-select" id="birthYear" name="dob_year" max="2002" min="1920" data-validate="{required:true}">
+                        <option id="" value="" selected=""><?php /* @escapeNotVerified */ echo __('YY') ?></option>
+                        <?php 
+						  $year = date('Y',mktime(0, 0, 0, 1, 1, 2002));
+						  $ymin = $year - 82;
+						  $ymax = $year;
+						  for( $y=$ymax; $y>=$ymin; $y-- ):?>
+							<option value="<?php echo $y; ?>" <?php if($block->escapeHtml($block->getFormData()->getDobYear()) == $y) : ?>selected<?php endif;?>><?php echo $y; ?></option>
+						 <?php endfor; ?>
+                    </select>
+                </div>
+				</div>
+            </div>
+        </div>
+		<div class="field required">
+            <div class="control">
+            	<div class="row">
+                <div class="form-group col-md-4 mb-0 required">
+                <label for="telephone" class="col-form-label c-form_label c-form_label--required"><span><?php /* @escapeNotVerified */ echo __('Contact Number') ?></span></label>
+                </div>
+                <div class="form-group col-md-8 mb-0 required">
+                	<div class="field-telephone-group">
+						<div class="form-group mb-0">
+                        	<input type="hidden" name="contact_number" id="contact_number" value="<?php echo $block->escapeHtml($block->getFormData()->getContactNumber()) ?>"/>
+                            <select id="tel_code" class="select custom-select telephone-code" name="tel_code" data-validate="{required:true}">
+                            <option value="+96">+96</option>
+                            </select>
+                        </div>
+                        <div class="form-group mb-0">
+                        <input type="text" placeholder="Contact Number" name="tel_number" autocomplete="telephone" id="tel_number" value="<?php echo $block->escapeHtml($block->getFormData()->getTelNumber()) ?>" title="<?php /* @escapeNotVerified */ echo __('Contact Number') ?>" class="input-text" data-validate="{'required':true,'validate-number':true,'minlength':6,'maxlenght':15}">
+                         </div>
+</div>
+                </div>
+				
+            	
+            	</div>
+            </div>
+        </div>
+        <div class="field required">
+            <!--label for="email_address" class="label"><span><?php /* @escapeNotVerified */ echo __('Email') ?></span></label-->
+            <div class="control">
+                <input type="email" placeholder="Email" name="email" autocomplete="email" id="email_address" value="<?php echo $block->escapeHtml($block->getFormData()->getEmail()) ?>" title="<?php /* @escapeNotVerified */ echo __('Email') ?>" class="input-text" data-validate="{required:true, 'validate-email':true}">
+            </div>
+        </div>
+        <div class="field password required" data-mage-init='{"passwordStrengthIndicator": {}}'>
+            <!--label for="password" class="label"><span><?php /* @escapeNotVerified */ echo __('Password') ?></span></label-->
+            <div class="control">
+                <input type="password" placeholder="Password" name="password" id="password"
+                       title="<?php /* @escapeNotVerified */ echo __('Password') ?>"
+                       class="input-text"
+                       data-password-min-length="<?php echo $block->escapeHtml($block->getMinimumPasswordLength()) ?>"
+                       data-password-min-character-sets="<?php echo $block->escapeHtml($block->getRequiredCharacterClassesNumber()) ?>"
+                       data-validate="{required:true, 'validate-customer-password':true}"
+                       autocomplete="off">
+                <!--div id="password-strength-meter-container" data-role="password-strength-meter" >
+                    <div id="password-strength-meter" class="password-strength-meter">
+                        <?php /* @escapeNotVerified */ echo __('Password Strength'); ?>:
+                        <span id="password-strength-meter-label" data-role="password-strength-meter-label" >
+                            <?php /* @escapeNotVerified */ echo __('No Password'); ?>
+                        </span>
+                    </div>
+                </div-->
+            </div>
+
+        </div>
+        <div class="field confirmation required">
+            <!--label for="password-confirmation" class="label"><span><?php /* @escapeNotVerified */ echo __('Confirm Password') ?></span></label-->
+            <div class="control">
+                <input type="password" placeholder="Confirm Password" name="password_confirmation" title="<?php /* @escapeNotVerified */ echo __('Confirm Password khalid') ?>" id="password-confirmation" class="input-text" data-validate="{required:true, equalTo:'#password'}" autocomplete="off">
+            </div>
+        </div>
+        <?php if ($block->isNewsletterEnabled()): ?>
+        <div class="field form-group custom-control custom-checkbox custom-checkbox--dark newsletter">
+            <input type="checkbox" class="custom-control-input" id="is_subscribed"  name="is_subscribed" value="1" <?php if ($block->getFormData()->getIsSubscribed()): ?> checked="checked"<?php endif; ?>/>
+            <label class="custom-control-label" for="is_subscribed">
+           <?php /* @escapeNotVerified */ echo __('Send me FIRSTSHOW new arrival updates, offers, and more.') ?>
+            </label>
+        </div>
+        <?php /* Extensions placeholder */ ?>
+        <?php echo $block->getChildHtml('customer.form.register.newsletter')?>
+        <?php endif ?>
+        <div class="form-group custom-control custom-checkbox custom-checkbox--dark">
+            <input type="checkbox" class="custom-control-input js-checkbox-agreement" id="agree-with-terms" data-validate="{required:true}" name="agree-with-terms" value="1"/>
+            <label class="custom-control-label" for="agree-with-terms">
+            <?php /* @escapeNotVerified */ echo __('I agree to FIRSTSHOW') ?>
+             <a href="javascript:void(0)" data-target-cid="terms-of-use" class="text-underlined" target="_blank"><?php /* @escapeNotVerified */ echo __('Terms &amp; Conditions') ?></a> <?php /* @escapeNotVerified */ echo __('and') ?> <a href="javascript:void(0)" data-target-cid="privacy-policy" class="text-underlined" target="_blank"><?php /* @escapeNotVerified */ echo __('Privacy Policy') ?> </a>
+            </label>
+        </div>
+        <?php echo $block->getChildHtml('form_additional_info'); ?>
+    </fieldset>
+    <div class="actions-toolbar">
+        <div class="primary">
+            <button type="submit" class="action submit primary btn btn-primary btn-lg btn-outline-dark--hover" title="<?php /* @escapeNotVerified */ echo __('Create an Account') ?>"><span><?php /* @escapeNotVerified */ echo __('Create  an Account') ?></span></button>
+        </div>
+        <!-- <div class="secondary">
+            <a class="action back" href="<?php echo $block->escapeUrl($block->getBackUrl()) ?>"><span><?php /* @escapeNotVerified */ echo __('Back') ?></span></a>
+        </div> -->
+    </div>
+</form>
+<script>
+require([
+    'jquery',
+    'mage/mage'
+], function($){
+
+    var dataForm = $('#form-validate');
+    var ignore = <?php /* @escapeNotVerified */ echo $_dob->isEnabled() ? '\'input[id$="full"]\'' : 'null'; ?>;
+
+    dataForm.mage('validation', {
+    <?php if ($_dob->isEnabled()): ?>
+        errorPlacement: function(error, element) {
+            if (element.prop('id').search('full') !== -1) {
+                var dobElement = $(element).parents('.customer-dob'),
+                    errorClass = error.prop('class');
+                error.insertAfter(element.parent());
+                dobElement.find('.validate-custom').addClass(errorClass)
+                    .after('<div class="' + errorClass + '"></div>');
+            }
+            else {
+                error.insertAfter(element);
+            }
+        },
+        ignore: ':hidden:not(' + ignore + ')',
+    <?php else: ?>
+        ignore: ignore ? ':hidden:not(' + ignore + ')' : ':hidden',
+    <?php endif ?>
+		messages: {
+			'tel_number': {
+				'validate-number': 'Please enter a valid contact number'
+			},
+		}
+    }).find('input:text').attr('autocomplete', 'off');
+	
+	$(document).ready(function(e) {
+		
+		$('#birthDay').on('change', function(){
+			updateDob();
+		});
+		
+		$('#birthYear').on('change', function(){
+			checkTotalDay();
+			updateDob();
+		});
+		$('#birthMonth').on('change', function(){
+			checkTotalDay();
+			updateDob();
+		});	
+		
+		$('#tel_code').on('change', function(){
+			updateContact();
+		});
+		
+		$('#tel_number').on('change', function(){
+			updateContact();
+		}); 
+		
+					 
+	});
+	
+	function updateContact(){
+		var code = $('#tel_code').val();
+		var number = $('#tel_number').val();
+		if(code != '' && number != '') {
+			$('#contact_number').val(code+'-'+number);
+		}else{
+			$('#contact_number').val('');
+		}
+	}
+	
+	function updateDob(){
+		var year = $('#birthYear').val();
+		var month = $('#birthMonth').val();
+		var day = $('#birthDay').val();
+		if(year != '' && month != '' && day != '') {
+			$('#dob').val(month+'/'+day+'/'+year);
+		}else{
+			$('#dob').val('');
+		}
+	}
+	
+	function checkTotalDay() {
+		//alert('fired');
+		var year = $('#birthYear').val();
+		var month = $('#birthMonth').val();
+		var day = $('#birthDay').val();
+		var totalDays = 31;
+		if(year != '' && month != '') {
+			totalDays = new Date(year, month, 0).getDate();
+			
+		}
+		
+		$('#birthDay').empty();
+		for(var i = 1; i <= totalDays; i++) {
+		   var selected = "";
+		   if(day==i){
+		   		selected = "selected";
+		   }
+		   $('#birthDay').append("<option value='"+i+"' "+selected+">"+i+"</option>");
+		}
+		
+	}
+
+});
+
+
+</script>
+<?php if ($block->getShowAddressFields()): ?>
+<script type="text/x-magento-init">
+    {
+        "#country": {
+            "regionUpdater": {
+                "optionalRegionAllowed": <?php /* @escapeNotVerified */ echo($block->getConfig('general/region/display_all') ? 'true' : 'false'); ?>,
+                "regionListId": "#region_id",
+                "regionInputId": "#region",
+                "postcodeId": "#zip",
+                "form": "#form-validate",
+                "regionJson": <?php /* @escapeNotVerified */ echo $this->helper('Magento\Directory\Helper\Data')->getRegionJson() ?>,
+                "defaultRegion": "<?php /* @escapeNotVerified */ echo $block->getFormData()->getRegionId() ?>",
+                "countriesWithOptionalZip": <?php /* @escapeNotVerified */ echo $this->helper('Magento\Directory\Helper\Data')->getCountriesWithOptionalZip(true) ?>
+            }
+        }
+    }
+</script>
+<?php endif; ?>

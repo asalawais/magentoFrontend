@@ -1,0 +1,30 @@
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+
+<div class="shipping-method-item col-md-6 col-sm-6 col-xs-12" click="element.selectShippingMethod">
+  <div class="shipping-method-item-inner custom-control custom-radio">
+    <input type="radio"
+               class="radio custom-control-input"
+               ifnot="method.error_message"
+               ko-checked="element.isSelected"
+               ko-value="method.carrier_code + '_' + method.method_code"
+               attr="'aria-labelledby': 'label_method_' + method.method_code + '_' + method.carrier_code + ' ' + 'label_carrier_' + method.method_code + '_' + method.carrier_code,
+                    'checked': element.rates().length == 1 || element.isSelected" />
+    <label class="col col-carrier custom-control-label" attr="'id': 'label_carrier_' + method.method_code + '_' + method.carrier_code" text="method.carrier_title" />
+    (<span class="col col-method" attr="'id': 'label_method_' + method.method_code + '_' + method.carrier_code" text="method.method_title"/>)
+    <each args="element.getRegion('price')" render="" />
+    <p class="method-description" translate="'Shipping method description will be shown here, this is a dummy text block.'"/>
+    <div class="row-error" if="method.error_message">
+      <div role="alert" class="message error">
+        <div text="method.error_message"></div>
+      </div>
+      <span class="no-display">
+      <input type="radio"
+                   attr="'value' : method.method_code, 'id': 's_method_' + method.method_code" />
+      </span> </div>
+  </div>
+</div>

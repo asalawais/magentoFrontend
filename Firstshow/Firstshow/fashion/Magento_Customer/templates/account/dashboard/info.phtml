@@ -1,0 +1,146 @@
+<?php
+
+/**
+
+ * Copyright © 2015 Magento. All rights reserved.
+
+ * See COPYING.txt for license details.
+
+ */
+
+
+
+// @codingStandardsIgnoreFile
+
+
+
+/** @var \Magento\Customer\Block\Account\Dashboard\Info $block */
+
+?>
+
+<div class="page-title-wrapper">
+
+    <h1 class="page-title">
+
+	<span class="base" data-ui-id="page-title-wrapper"><?php /* @escapeNotVerified */ echo __('My Account Overview') ?></span>    
+
+	</h1>
+
+</div>
+
+<div class="account_overview-container container-fluid">
+
+<div class="row">
+
+<div class="col-12 col-md-4 account_overview-item">
+
+<div class="card text-center account_overview-card">
+
+<h4 class="card-title account_overview-card_title"><?php /* @escapeNotVerified */ echo __('My Profile')?></h4>
+
+<div class="card-text account_overview-card_text">
+
+<?php /* @escapeNotVerified */ echo __('Manage your profile details, sign–in information and subscription preferences')?>
+
+</div>
+
+<a class="btn-link" href="<?php /* @escapeNotVerified */ echo $block->getUrl('customer/account/edit') ?>"><?php /* @escapeNotVerified */ echo __('Edit your profile')?></a>
+
+</div>
+
+</div>
+
+<div class="col-12 col-md-4 account_overview-item">
+
+<div class="card text-center account_overview-card">
+
+<h4 class="card-title account_overview-card_title"><?php /* @escapeNotVerified */ echo __('My Purchases & Returns')?></h4>
+
+<div class="card-text account_overview-card_text">
+
+<?php /* @escapeNotVerified */ echo __('Track both store and online purchases, and view your returns')?>
+
+</div>
+
+<a class="btn-link" href="<?php /* @escapeNotVerified */ echo $block->getUrl('sales/order/history') ?>"><?php /* @escapeNotVerified */ echo __('View your purchases and returns')?></a>
+
+</div>
+
+</div>
+
+<div class="col-12 col-md-4 account_overview-item">
+
+<div class="card text-center account_overview-card">
+
+<h4 class="card-title account_overview-card_title"><?php /* @escapeNotVerified */ echo __('Wishlist')?></h4>
+
+<div class="card-text account_overview-card_text">
+
+<?php /* @escapeNotVerified */ echo __('Update and keep track of your favourite items')?>
+
+</div>
+
+<a class="btn-link" href="<?php /* @escapeNotVerified */ echo $block->getUrl('wishlist') ?>"><?php /* @escapeNotVerified */ echo __('Manage your wishlist')?></a>
+
+</div>
+
+</div>
+
+<div class="col-12 col-md-4 account_overview-item">
+
+<div class="card text-center account_overview-card">
+
+<h4 class="card-title account_overview-card_title"><?php /* @escapeNotVerified */ echo __('My Preferences')?></h4>
+
+<div class="card-text account_overview-card_text">
+
+<?php /* @escapeNotVerified */ echo __('Share your preferences with us for a more personalised shopping experience')?>
+
+</div>
+
+<a class="btn-link" href="<?php /* @escapeNotVerified */ echo $block->getUrl('newsletter/manage') ?>"><?php /* @escapeNotVerified */ echo __('Edit your preferences')?></a>
+
+</div>
+
+</div>
+
+<div class="col-12 col-md-4 account_overview-item">
+
+<div class="card text-center account_overview-card">
+
+<h4 class="card-title account_overview-card_title"><?php /* @escapeNotVerified */ echo __('Address Book')?></h4>
+
+<div class="card-text account_overview-card_text">
+
+<?php /* @escapeNotVerified */ echo __('Add and edit your residential, shipping and billing addresses')?>
+
+</div>
+
+<a class="btn-link" href="<?php /* @escapeNotVerified */ echo $block->getUrl('customer/address') ?>"><?php /* @escapeNotVerified */ echo __('Manage your addresses')?> </a>
+
+</div>
+
+</div>
+
+<div class="col-12 col-md-4 account_overview-item">
+
+<div class="card text-center account_overview-card">
+
+<h4 class="card-title account_overview-card_title"><?php /* @escapeNotVerified */ echo __('My Saved Cards')?></h4>
+
+<div class="card-text account_overview-card_text">
+
+<?php /* @escapeNotVerified */ echo __('View, add, or delete your saved cards')?>
+
+</div>
+
+<a class="btn-link" href="<?php /* @escapeNotVerified */ echo $block->getUrl('vault/cards/listaction') ?>"> <?php /* @escapeNotVerified */ echo __('Manage your saved cards')?></a>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+

@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="1column-catelog" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+
+        <referenceContainer name="content">
+			 <container name="category.view.container.custom.move.content" htmlTag="div" htmlClass="category-view-custom-move-content" before="-" />
+            <block class="Magento\Framework\View\Element\Template" name="custom.links.block" template="Magento_Catalog::category/grid.phtml" />
+        </referenceContainer>
+
+        <referenceContainer name="content">
+            <block class="Magento\Cms\Block\Block" name="category.slider.block">
+                <arguments>
+                    <argument name="block_id" xsi:type="string">category_page_slider</argument>
+                </arguments>
+            </block>
+        </referenceContainer>
+
+        <move element="category.view.container" destination="category.view.container.custom.move.content"/>
+        <!--<move element="col.left.sidebar" destination="content" after="category.view.container.custom.move.content"/>-->
+        <move element="catalog.leftnav" destination="content" before="category.products"/>
+    </body>
+</page>

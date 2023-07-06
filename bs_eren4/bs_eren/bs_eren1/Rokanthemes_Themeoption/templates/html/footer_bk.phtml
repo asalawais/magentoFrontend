@@ -1,0 +1,104 @@
+<div class="footer-bottom">
+    <div class="container">
+        <div class="col-sm-12 col-xs-12">
+            <div class="social-link">
+                <?php echo $this->getChildHtml("social_block"); ?>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="footer-main page-footer-blocks">
+    <div class="block newsletter custom-common-links">
+        <h2>STAY INFORMED</h2>
+        <p>Sign up for the newsletter and stay informed.</p>
+        <div class="title"><strong>Newsletter</strong></div>
+        <div class="content">
+            <form class="form subscribe"
+                  novalidate
+                  action="<?php /* @escapeNotVerified */ echo $block->getFormActionUrl() ?>"
+                  method="post"
+                  data-mage-init='{"validation": {"errorClass": "mage-error"}}'
+                  id="newsletter-validate-detail">
+                <div class="field newsletter">
+                    <div class="control">
+                        <input name="email" type="email" id="newsletter"
+                               placeholder="<?php /* @escapeNotVerified */ echo __('Enter your email here') ?>..."
+                               data-validate="{required:true, 'validate-email':true}"/>
+
+                            <button class="button action subscribe primary" title="<?php /* @escapeNotVerified */ echo __('Subscribe') ?>" type="submit">
+                                <span><?php /* @escapeNotVerified */ echo __('Subscribe') ?></span>
+                            </button>
+
+                    </div>
+                </div>
+
+            </form>
+        </div>
+    </div>
+
+
+
+    <div class="footer-links-container custom-common-links">
+        <div class="custom-footer-links">
+            <h2>Klantenservice</h2>
+            <ul class="footer-menu">
+                <li class="nav item nav-footer-links">
+                    <a href="{{store url="over-ons"}}">Over ons</a>
+                </li>
+                <li class="nav item nav-footer-links">
+                    <a href="http://homeshopping24.local/contact/">
+                        Contact
+                    </a>
+                </li>
+                <li class="nav item nav-footer-links">
+                    <a href="http://homeshopping24.local/privacy-beleid/" data-action="advanced-search">
+                        Privacybeleid
+                    </a>
+                </li>
+                <li class="nav item nav-footer-links">
+                    <a href="http://homeshopping24.local/algemene-voorwaarden/">
+                        Algemene voorwaarden
+                    </a>
+                </li>
+                <li class="nav item nav-footer-links">
+                    <a href="http://homeshopping24.local/herroepingsrecht-klachtenregeling/">
+                        Herroepingsrecht / Klachtenregeling
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="footer-accounts-container custom-common-links">
+        <div class="custom-footer-links">
+            <h2>Account</h2>
+            <ul class="footer-menu">
+                <li class="nav item nav-footer-links">
+                    <a href="http://homeshopping24.local/customer/account/login/referer/aHR0cHM6Ly93d3cuaG9tZXNob3BwaW5nMjQubmwvY3VzdG9tZXIvYWNjb3VudC9pbmRleC8%2C/">
+                        Mijn MPS Textiles
+                    </a>
+                </li>
+                <li class="nav item nav-footer-links">
+                    <a href="http://homeshopping24.local/customer/account/login/">
+                        Inloggen
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="footer-contact-container custom-common-links">
+        <div class="custom-footer-links">
+            <h2 class="title">Contact</h2>
+            Boekweitstraat 90<br>
+            2153 GL Nieuw-Vennep<br>
+            Nederland<br>
+            Tel : +31(0)252-626565<br>
+            Fax : +31(0)252-625590<br>
+            Kamer van Koophandel : 67497152<br>
+            BTW : NL857029447B01
+        </div>
+    </div>
+</div>

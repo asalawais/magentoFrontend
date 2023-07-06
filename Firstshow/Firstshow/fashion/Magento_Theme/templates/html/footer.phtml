@@ -1,0 +1,64 @@
+<?php
+/**
+ * Copyright © 2015 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+?>
+<div class="footer-newletter clearfix">
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-6 col-md-6 col-xs-12 col-sm-6">
+			<?php echo $block->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('footer_newsletter')->toHtml();?>
+			</div>
+			<div class="col-lg-6 col-md-6 col-xs-12 col-sm-6">
+				<!-- <ul class="social-icon"> -->
+					<!-- <li><label class="label" for="followus"><span class="follow-us"><?php /* @escapeNotVerified */ //echo __('FOLLOW US') ?></span></label></li> -->
+					<?php echo $block->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('footer_social')->toHtml();?>
+				<!-- </ul> -->
+			</div>
+		</div>
+	</div>
+</div>
+<div class="footer-container footer-v2">
+    <section class="middle-footer">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 middle-block">
+					<?php //echo $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('fashion_ft_about')->toHtml() ?>
+					<?php echo $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('shopping_with')->toHtml() ?>
+				</div>
+				<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 middle-block">
+					<?php //echo $block->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('fashion_ft_contacts')->toHtml();?>
+					<?php echo $block->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('customer_care')->toHtml();?>
+				</div>
+				<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 middle-block">
+					<?php //echo $block->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('fashion_ft_info')->toHtml();?>
+					<?php echo $block->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('about_us')->toHtml();?>
+				</div>
+				<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 middle-block">
+					<?php //echo $block->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('fashion_ft_instagram')->toHtml();?>
+					<?php echo $block->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('payment_method')->toHtml();?>
+				</div>
+			</div>
+			<div class="row page_footer-copyright">
+				<div>
+					<!-- <address><?php /* @escapeNotVerified */ //echo $block->getCopyright() ?></address> -->
+					<address><?php echo $block->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('footer_copyright')->toHtml();?></address>
+				</div>
+			</div>
+		</div>
+    </section>
+		
+    <!-- <section class="bottom-footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+					<address><?php /* @escapeNotVerified */ //echo $block->getCopyright() ?></address>
+				</div>
+            </div>
+        </div>
+    </section> -->
+</div>

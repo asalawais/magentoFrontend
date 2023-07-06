@@ -1,0 +1,33 @@
+<?php
+/**
+ * Top menu for store
+ *
+ * @see \Magento\Theme\Block\Html\Topmenu
+ */
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+$customerSession = $objectManager->get('Magento\Customer\Model\Session');
+$fullName = $customerSession->getCustomer()->getName();  // get  Full Name
+$nameArr = explode(" ", $fullName);
+$firstName = $nameArr[0];
+?>
+
+<div class="mobile-welcome d-hide">
+		<?php if($customerSession->isLoggedIn()):?>
+			<span class="welcome-text"><?php echo __('Hi'); ?> <?php echo $firstName;?><?php echo __('!'); ?></span>
+            <a class="my-account-link" href="<?php echo $this->getUrl('customer/account') ?>"><?php echo __('View my account'); ?></span>
+            <a class="action primary btn btn-primary btn-sign-out" title="Sign Out" href="<?php echo $this->getUrl('customer/account/logout') ?>">
+
+				<span><span><?php echo __('Sign Out'); ?></span></span>
+
+			</a>
+		<?php else:?>
+			<span class="welcome-text"><?php echo __('Welcome To'); ?></span>
+            <span class="welcome-website"><?php echo __('www.firstshow.com'); ?></span>
+            <a class="action primary btn btn-primary btn-sign-in" title="Sign In" href="<?php echo $this->getUrl('customer/account/login') ?>">
+
+				<span><span><?php echo __('Sign In'); ?></span></span>
+
+			</a>
+		<?php endif;?>
+        <a class="wishlist-button btn" href="<?php echo $this->getUrl('wishlist') ?>"><i class="fa fa-heart-o heart-ico" aria-hidden="true"></i><?php echo __('My Wishlist') ?></a>
+	</div>

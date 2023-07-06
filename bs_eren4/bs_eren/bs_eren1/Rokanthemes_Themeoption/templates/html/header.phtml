@@ -1,0 +1,221 @@
+<style type="text/css">
+header.page-header.type14 .block-search input {
+    min-width: 300px;
+    border: 1px solid black;
+}
+header.page-header.type14 .nav-sections {
+    margin-top: 2px;
+    margin-left: 150px;
+}
+.menu-bar-bg {
+    background-color: rgba(112,112,112,0.5);
+	position: absolute;
+}
+body:not(.cms-index-index) .menu-bar-bg{
+    background-color: #333333;
+    position: relative;
+}
+.menu-bar-bg {
+    order: 2;
+}
+.menu-bar-bg .block-search .control { padding: 0; }
+.menu-bar-bg {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    width: 100%;
+}
+.header-v5 .container.flex {
+    min-height: 130px;
+    margin: 0 !important;
+}
+ .flex {
+    display: flex;
+    flex-flow: row nowrap;
+}
+.content-search-handler {
+    justify-content: flex-start;
+    width: 100%;
+    flex-grow: 0;
+    margin: 0 auto;
+}
+.menu-bar {
+    order: 1;
+    display: flex;
+    max-width: 1260px;
+    margin: 0 auto;
+    flex-flow: row nowrap;
+    position: relative;
+    width: 100%;
+}
+.header.content {
+    border-bottom: none;
+    z-index: 1;
+    display: flex;
+    flex-flow: row wrap;
+}
+
+.searchsuite-autocomplete {
+    font-size: 14px;
+}
+
+.header-container .header .logo {
+    float: right;
+
+}
+
+.header-container .header .for-full-withmenu {
+    background-color: transparent;
+}
+
+
+@media screen and (max-width: 767px) {
+	.header-container .header .logo img {
+    	max-width: 130px;
+	}
+	.mobile-container, .content-search-handler {
+		width: 100%;
+	}
+
+
+	.block-search input {
+	    font-size: 14px;
+	    margin: 0px 0;
+	    position: static;
+	}
+	.block-search .action.search {
+	    display: inline-block;
+	    background-image: none;
+	    background: none;
+	    -moz-box-sizing: content-box;
+	    border: 0;
+	    box-shadow: none;
+	    line-height: inherit;
+	    margin: 0;
+	    padding: 0;
+	    text-decoration: none;
+	    text-shadow: none;
+	    font-weight: 400;
+	    padding: 5px 0;
+	    position: absolute;
+	    right: -25px;
+	    top: 7px;
+	    z-index: 1;
+	}
+
+	.block-search .action.search:before {
+	    -webkit-font-smoothing: antialiased;
+	    -moz-osx-font-smoothing: grayscale;
+	    font-size: 22px;
+	    line-height: 22px;
+	    color: #8f8f8f;
+	    content: '\e615';
+	    font-family: 'icons-blank-theme';
+	    margin: 0;
+	    vertical-align: top;
+	    display: inline-block;
+	    font-weight: normal;
+	    overflow: hidden;
+	    speak: none;
+	    text-align: center;
+	}
+	.block-search .control {
+    	border-top: 0;
+}
+	.block-search .label {
+    display: none;
+}
+}
+</style>
+<div class="header-container">
+	<div class="header-text text-center">
+        <div class="container">
+            <?php echo $block->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('header_text')->toHtml();?>
+        </div>
+	</div>
+	<div class="header">
+        <div class="container for-full-withmenu">
+                <?php echo $this->getChildHtml("topSearch"); ?>
+            <div class="col-logo"><?php echo $this->getChildHtml("logo"); ?></div>
+
+            <div class="actions-header">
+                <?php echo $this->getChildHtml("minicart");?>
+                <div class="register-login hidden-xs">
+                    <?php if(!$this->helper('Rokanthemes\Themeoption\Helper\Data')->isLoggedIn()){?>
+                        <a href="<?php echo $this->getUrl('customer/account/login');?>"><?php echo __('Login');?></a>
+                        <a href="<?php echo $this->getUrl('customer/account/create');?>"> / <?php echo __('Sign up');?></a>
+                        <?php
+                    }
+                    else{
+                        ?>
+                        <a href="<?php echo $this->getUrl('customer/account/index');?>"><?php echo __('My account');?></a>
+                        <a href="<?php echo $this->getUrl('customer/account/logout');?>"> / <?php echo __('Logout');?></a>
+                    <?php } ?>
+                </div>
+                <?php //echo $this->getChildHtml("topSearch");
+                /*<div class="wishlist hidden-xs">
+                    <a href="<?php echo $this->getUrl('wishlist');?>"><i class="icon-heart"></i></a>
+                </div>*/
+                ?>
+                <div class="header-top-setting">
+                    <a href="#" class="actions-top"><i class="icon-menu"> </i></a>
+                    <div class="setting-container">
+                        <div class="container-setting-language-currency">
+                            <button type="button" id="btn-h-t-s-close" title="<?php echo __('Close') ?>">
+                                <span><?php echo __('Close') ?></span>
+                            </button>
+                            <h3><?php echo __('Language') ?></h3>
+                            <?php echo $this->getChildHtml("store_language"); ?>
+                            <h3><?php echo __('Currency') ?></h3>
+                            <?php echo $this->getChildHtml("currency"); ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+
+        </div>
+        <div class="menu-bar-bg">
+            <div class="container-fluid flex mobile-container">
+                <div class="content-search-handler">
+                    <?php echo $this->getChildHtml("top.navigation.sections"); ?>
+                    <?php //echo $this->getChildHtml("topSearchNav"); ?>
+                </div>
+            </div>
+        </div>
+        <div class="section-element home-first-banner">
+            <div class="container">
+                <?php echo $this->getChildHtml("Newproduct"); ?>
+            </div>
+
+        </div>
+
+
+	</div>
+</div>
+<?php if($this->helper('Rokanthemes\Themeoption\Helper\Themeconfig')->isEnableStickyHeader()){ ?>
+
+
+
+
+    <script type="text/javascript">
+    require(['jquery'],function($){
+        $(document).ready(function($){
+			$(window).scroll(function() {
+				var num = $('.header-container').outerHeight();
+				var screenWidth = $(window).width();
+
+				if ($(this).scrollTop() > num && screenWidth >= 768 ){
+					$(".header").addClass("sticky");
+				}
+				else{
+					$(".header").removeClass("sticky");
+				}
+			});
+		});
+    });
+</script>
+<?php } ?>

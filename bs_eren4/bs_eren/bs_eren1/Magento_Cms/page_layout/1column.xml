@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_layout.xsd">
+    <update handle="empty"/>
+    <referenceContainer name="page.wrapper">
+
+        <container name="header.container" as="header_container" label="Page Header Container" htmlTag="div" htmlClass="page-header custom-page-header" />
+        <container name="page.top" as="page_top" label="After Page Header" after="header.container.outer"/>
+        <container name="footer-container" as="footer" before="before.body.end" label="Page Footer Container" htmlTag="footer" htmlClass="page-footer custom-page-footer">
+            <container name="footer-container-blocks" label="Page Footer Container Inner" htmlTag="div" htmlClass="page-footer-blocks" />
+        </container>
+    </referenceContainer>
+</layout>

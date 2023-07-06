@@ -1,0 +1,25 @@
+<?php
+/**
+ * Copyright © 2015 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+?>
+<?php /** @var $block \Magento\Catalog\Block\Product\AbstractProduct */ ?>
+<?php $_helper = $this->helper('Magento\Catalog\Helper\Output'); ?>
+<div class="product-name">
+	<span class="h1"><?php echo $_helper->productAttribute($block->getProduct(), $block->getProduct()->getName(), 'name') ?></span>
+</div>
+<div class="product-sku">
+	<?php echo __(' Item No. ') ?> <?php echo $_helper->productAttribute($block->getProduct(), $block->getProduct()->getSku(), 'sku') ?>
+</div>
+<div class="modal fade size-guide-model" id="sizeGuideModal" tabindex="-1" role="dialog" aria-labelledby="sizeGuideModal" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <div class="modal-container">
+					<?php echo $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('size-guide-static-block')->toHtml();?>
+				</div>
+		</div>
+</div>

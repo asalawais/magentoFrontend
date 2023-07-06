@@ -1,0 +1,84 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+/** This changes need to valid applying filters and configuration before search process is started. */
+$productList = $block->getProductListHtml();
+?>
+<?php if ($block->getResultCount()) : ?>
+<?= /* @noEscape */ $block->getChildHtml('tagged_product_list_rss_link') ?>
+
+<div class="search results">
+  <?php if ($messages = $block->getNoteMessages()) : ?>
+  <div class="message notice">
+    <div>
+      <?php foreach ($messages as $message) : ?>
+      <?= /* @noEscape */ $message ?>
+      <br />
+      <?php endforeach; ?>
+    </div>
+  </div>
+  <?php endif; ?>
+  <?= /* @noEscape */ $productList ?>
+</div>
+<?php else : ?>
+<div class="noresult">
+  <h5 class="text-center">
+    <?= $block->escapeHtml($block->getNoResultText() ? $block->getNoResultText() : __('NO RESULTS FOUND')) ?>
+  </h5>
+  <div class="noresult-for_info">
+    <?= $block->escapeHtml(__('We are sorry, but no results were found for your search')) ?>
+    "<?php echo $_GET['q'];?>".
+    <?= $block->escapeHtml(__('Please make sure you have entered the correct search term and try again.')) ?>
+  </div>
+  <div class="content-asset">
+    <div class="noresult-info">
+      <div class="noresult-tips card">
+        <div class="card-body noresult-card_body"> <span>Search Tips:</span>
+          <ul class="noresult-tips_list">
+            <li><span class="noresult-tips_item">Double–check your spelling</span></li>
+            <li><span class="noresult-tips_item">Use fewer keywords</span></li>
+            <li><span class="noresult-tips_item">Use more general keywords</span></li>
+            <li><span class="noresult-tips_item">Try a new search term</span></li>
+          </ul>
+        </div>
+      </div>
+      <div class="noresult-help card">
+        <div class="card-body noresult-card_body">
+          <h6 class="mb-1">NEED HELP?</h6>
+          <p class="noresult-help_text">Please contact our Customer Care department:</p>
+          <div class="speak_to_us-tel">
+            <svg class="icon speak_to_us-tel_icon">
+              <use xlink:href="#phone-black"><use xlink:href="#phone-black"><symbol id="phone-black" viewBox="0 0 20 20"><path data-name="Phone Icon" d="M17.861 1.379L14.205.536a.849.849 0 0 0-.967.489L11.55 4.962a.842.842 0 0 0 .243.984l2.132 1.744a13.029 13.029 0 0 1-6.23 6.23l-1.744-2.13a.843.843 0 0 0-.984-.243l-3.942 1.687a.854.854 0 0 0-.492.97l.844 3.656a.843.843 0 0 0 .823.654A16.31 16.31 0 0 0 18.515 2.202a.843.843 0 0 0-.654-.823z" fill="none" stroke="#000"></path></symbol></use></use>
+            </svg>
+            <a href="tel:6564882688">(65) 6488 2688</a> </div>
+          <div class="speak_to_us-chat">
+            <svg class="icon speak_to_us-chat_icon noresult-chat_icon">
+              <use xlink:href="#chat-black"><symbol id="chat-black" viewBox="0 0 20 24"><g data-name="Chat Icon"><g data-name="Union 1" fill="none"><path d="M15 5.028a5 5 0 0 1 5 5v5.989a5 5 0 0 1-5 5h-4.32l-2.419 2.984-3.713-3A5 5 0 0 1 0 16.017v-5.989a5 5 0 0 1 5-5z"></path><path d="M5 6.028c-2.206 0-4 1.795-4 4v5.99c0 1.005.375 1.966 1.054 2.706A3.986 3.986 0 0 0 4.638 20l.303.028.236.191 2.936 2.376 1.79-2.208.3-.37h4.796c2.206 0 4.001-1.795 4.001-4v-5.99c0-2.205-1.795-4-4-4H5m0-1h10a5 5 0 0 1 5 5v5.99a5 5 0 0 1-5 5h-4.32L8.26 24.001l-3.713-3.005A5 5 0 0 1 0 16.017V10.03a5 5 0 0 1 5-5z" fill="#000"></path></g><text data-name="…" transform="translate(5 14.001)" font-size="14" font-family="FuturaPT-Book, Futura PT"><tspan x="0" y="0">…</tspan></text></g></symbol></use>
+            </svg>
+            <a class="js-liveChat btn-link" href="#">Chat Now</a> </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+        
+        <?= /* @noEscape */ $block->getAdditionalHtml() ?>
+        <?php if ($messages = $block->getNoteMessages()) : ?>
+		<div class="message notice">
+   			<div>
+            <?php foreach ($messages as $message) : ?>
+                <br /><?= /* @noEscape */ $message ?>
+            <?php endforeach; ?>
+			</div>
+	  	</div>
+        <?php endif; ?>
+    
+  <style type="text/css">
+  	.sidebar.sidebar-main{ display:none !important;}
+	.column.main{ width:100% !important}
+  </style>
+</div>
+<?php endif; ?>

@@ -1,0 +1,160 @@
+<?php //$block = $this->getBlock() ?>
+<?php
+  // $welcomeMessage = $block->getWelcome();
+  $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+?>
+<?php
+        // $customerSession = $objectManager->get('Magento\Customer\Model\Session');
+        // if($customerSession->isLoggedIn()) {
+        //     echo   $customerSession->getCustomer()->getName()."<br/>";  // get  Full Name
+        //     echo   $customerSession->getCustomer()->getFirstname()."<br/>";  // get Customer First name
+        //     echo   $customerSession->getCustomer()->getLastname()."<br/>";  // get  Last Name
+        // }
+    ?>
+
+<div class="promotion-banner">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="">
+          <?php
+						echo $this->getLayout()->createBlock("Magento\Theme\Block\Html\Header")->setTemplate("Magento_Theme::html/header_banner.phtml")->toHtml();
+					// echo $block->getBlockHtml('header-promotion');
+					?>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- header-v4 -->
+<div class="header-logo-container clearfix">
+  <div class="logo-container desktop-header">
+    <div class="container">
+      <div class="row top-header">
+        <div class="col-sm-4 col-xs-4 ">
+          <ul class="top-left-col clearfix m-hide">
+            <!-- <div class="top-left-col"> -->
+            <!-- <li>IN</li> -->
+            <li><?php echo $block->getChildHtml('currency') ?></li>
+            <!-- <a href="#">IN</a> -->
+            <!-- <span class="symbl">₹</span> -->
+            <li class="divider"><span></span></li>
+            <!-- <span class="divider">divider</span> -->
+            <!-- <span class="lang">English</span> -->
+            <li><?php echo $block->getChildHtml('store_language') ?></li>
+            <?php //echo $block->getChildHtml('store_language') ?>
+            <li class="divider"><span></span></li>
+            <!-- <span class="divider">divider</span> -->
+            <li><a href="<?php echo $this->getUrl('stores');?>" class="find-store"><?php echo __('Find Store'); ?></a></li>
+            <!-- <a href="#" class="find-store">Find Store</a> -->
+            <!-- </div> -->
+          </ul>
+        </div>
+        <div class="col-sm-4 col-xs-4"> <?php echo $block->getChildHtml('logo') ?>
+          <!-- <div class="center-logo">Logo</div> -->
+        </div>
+        <div class="col-sm-4 col-xs-4">
+          <ul class="top-right-col  clearfix">
+            <li class="top-search-container m-hide"><?php echo $block->getChildHtml('topSearch') ?></li>
+            <li class="divider m-hide"><span></span></li>
+            <li class="login-container">
+              <?php
+                $linkName = $linkList = $logedInClass = "";
+                $customerSession = $objectManager->get('Magento\Customer\Model\Session');
+                if($customerSession->isLoggedIn()) {
+                    $logedInClass = "myaccount-logedin";
+                    $fullName = $customerSession->getCustomer()->getName();  // get  Full Name
+                    $nameArr = explode(" ", $fullName);
+                    $linkName = $nameArr[0];
+                    // $linkList = $block->getChildHtml('top.links');
+                    $linkList = '
+                    <div class="login-account-links">
+
+                    <a href="'.$this->getUrl('customer/account/').'" class="dropdown-item user_registered_menu-item" test-account-link="">'.__('Overview').'</a>
+
+                    <a href="'.$this->getUrl('customer/account/edit').'" class="dropdown-item user_registered_menu-item">'.__('My Profile').'</a>
+
+                    <a href="'.$this->getUrl('sales/order/history').'" class="dropdown-item user_registered_menu-item" test-orders-link="">'.__('My Purchases & Returns').'</a>
+
+                    <a href="'.$this->getUrl('customer/address').'" class="dropdown-item user_registered_menu-item">'.__('Address Book').'</a>
+
+                    <a href="'.$this->getUrl('vault/cards/listaction/').'" class="dropdown-item user_registered_menu-item">'.__('My Saved Cards').'</a>
+
+                    <a href="'.$this->getUrl('customer/account/logout').'" class="dropdown-item user_registered_menu-item" test-signout-link="">'.__('Sign Out').'</a>
+
+                    </div>
+                    ';
+
+                }else {
+                  $linkName = __('Sign in');
+                  $linkList = $this->getLayout()->createBlock("Twl\CustomerLogin\Block\Popup")->setTemplate("Twl_CustomerLogin::form/popup.phtml")->toHtml();
+                }
+              ?>
+              <div class="switcher top-login  <?php echo $logedInClass; ?>" id="top-login"> <a class="login-link" href="javascript:void(0)" data-mage-init='{"dropdown":{}}' data-toggle="dropdown-login"> <?php echo $linkName; ?> </a>
+                <div class="menu dropdown switcher-dropdown ui-dialog-content ui-widget-content" data-target="dropdown-login" style="display:none;" data-mage-init='{"dropdownDialog":{
+    								"appendTo":"#top-login",
+    								"triggerTarget":"#top-login > .login-link",
+    								"closeOnMouseLeave": false,
+    								"triggerClass":"active",
+    								"parentClass":"active",
+    								"defaultDialogClass":"dropdown-menu header_login-menu header_login-menu--unregistered",
+    								"buttons":null}}'>
+                  <?php
+                      echo $linkList
+                    ?>
+                </div>
+              </div>
+              <?php //echo $block->getChildHtml('top.links') ?>
+            </li>
+            <li class="divider"><span></span></li>
+            <li class="wishlist-link-container m-hide"><a class="wishlist-icon" href="<?php echo $this->getUrl('wishlist') ?>"><?php echo __('Wishlist') ?></a></li>
+            <li class="divider m-hide"><span></span></li>
+            <li class="mini-cart-link-container"> <?php echo $block->getChildHtml('minicart') ?>
+              <!-- <a href="#" class="my-cart-icon">My Cart</a> -->
+            </li>
+            <!-- <div class="top-right-col"> -->
+            <?php //echo $block->getChildHtml('topSearch') ?>
+            <!-- <a href="#">Sign in</a> -->
+            <!-- <span class="divider">divider</span> -->
+            <!-- <a href="#" class="wishlist-icon">Wishlist</a> -->
+            <!-- <span class="divider">divider</span> -->
+            <!-- <a href="#" class="my-cart-icon">My Cart</a> -->
+            <!-- </div> -->
+          </ul>
+          <?php //echo $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('category_image')->toHtml();?>
+        </div>
+      </div>
+    </div>
+  </div>
+  <?php //echo $welcomeMessage; ?>
+  <div class="middle-header-content navbar-collapse top-nav-bar">
+    <div class="container">
+      <button class="btn btn-responsive-nav btn-inverse"> <em class="fa fa-bars">&nbsp;</em> </button>
+      <nav class="navigation" role="navigation">
+      	<div class="mobile-nav-top d-hide">
+        <div class="mobile-search d-hide">
+		<?php echo $this->getChildHtml('topSearchMobile');?>
+		</div>	
+		<?php echo $this->getChildHtml('mobileWelcome');?>
+        </div>
+	  <?php echo $block->getChildHtml('catalog.topnav') ?>
+      <div class="language_change d-hide">
+        <div class="language_current">
+        <span class="country_switch-current_country">Saudi Arabia</span>
+        <span class="country_switch-currency"><?php echo $block->getChildHtml('currency') ?> إ</span>
+        </div>
+        <!--<a href="" title="Change" class="language_change-link">
+        Change
+        </a>-->
+        <?php echo $this->getChildHtml('store_language_mobile');?>
+        </div>
+      </nav>
+	<style type="text/css">
+    @media only screen and (max-width: 991px) {
+    .navigation ul > li.category-item{background: #ccc;display: block;margin: 0 0 10px;}
+    .navigation ul > li.category-item a{ background:#eee; padding:20px 30px} 
+    }
+    </style> 
+      </div>
+  </div>
+</div>

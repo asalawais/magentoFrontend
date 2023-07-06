@@ -1,0 +1,28 @@
+<?php
+/**
+ * Copyright © 2015 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+/**
+ * Product media data template
+ *
+ * @var $block \Magento\Catalog\Block\Product\View\Gallery
+ */
+ $jsonDataArr = json_decode($block->getGalleryImagesJson());
+ // echo '<pre>';
+ // var_dump($jsonDataArr);
+?>
+<div class="gallery-placeholder _block-content-loading" data-gallery-role="gallery-placeholder">
+  <ol class="clearfix">
+  <?php if ($jsonDataArr) {
+    foreach ($jsonDataArr as $img) {
+      ?>
+      <li class="img-list-item"> <img src="<?php echo $img->img ?>" alt="<?php echo $img->caption ?>"></li>
+      <?php
+    }
+  } ?>
+  </ol>
+</div>
